@@ -44,6 +44,7 @@ export const MenuText = styled.div`
   width: 100%;
   padding: ${theme.spacings(0.5, 1)};
   border-radius: 8px;
+  font-size: 14px;
   color: ${(props) => props.color || theme.colors.textDark};
 
   &:hover {

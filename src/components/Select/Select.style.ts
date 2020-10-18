@@ -16,6 +16,7 @@ export const customStyle = {
     minHeight: "30px",
     borderRadius: "10px",
     fontSize: "14px",
+    fontWeight: "normal",
     color: theme.colors.black,
     border: "none",
   }),
@@ -33,14 +34,15 @@ export const customStyle = {
     ...styles,
     padding: "10px 6px",
     borderRadius: "10px",
-    fontSize: "14px",
     border: "none",
   }),
   option: (styles: any, state: any) => ({
     ...styles,
     borderRadius: "8px",
     height: "30px",
-    paddingTop: "7px",
+    paddingTop: "5px",
+    fontSize: "14px",
+    fontWeight: "normal",
     backgroundColor: state.isSelected
       ? theme.colors.purple
       : state.isFocused
