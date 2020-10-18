@@ -42,7 +42,6 @@ export const theme = {
     return `${top * 10}px`;
   },
   colors: {
-    background: "#E5E5E5",
     container: "#F5F5F5",
 
     progressBackground: "#3B3B3B",
@@ -56,6 +55,7 @@ export const theme = {
     textDark: "#2E2E2E",
     textDisable: "#A9A9A9",
     textPlaceholder: "#BCBCBC",
+    textProgress: "#EBE9E8",
 
     menuIcon: "#9796A8",
   },
