@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IAsyncReduxData, ITask } from "../../interfaces";
-import { createTodo, fetchTodos } from "../actions";
+import { createTodo, fetchTodos, deleteTodo } from "../actions";
 
 export interface ITodosState extends IAsyncReduxData<ITask[]> {}
 
@@ -34,6 +34,20 @@ export const todosSlice = createSlice({
       error: undefined,
     }),
     [createTodo.rejected.type]: (state, action) => ({
+      ...state,
+      isLoading: false,
+      error: action.error,
+    }),
+
+    [deleteTodo.pending.type]: (state) => {
+      state.isLoading = true;
+    },
+    [deleteTodo.fulfilled.type]: (state, action) => ({
+      data: (state.data || []).filter((task) => task.id !== action.meta.arg),
+      isLoading: false,
+      error: undefined,
+    }),
+    [deleteTodo.rejected.type]: (state, action) => ({
       ...state,
       isLoading: false,
       error: action.error,

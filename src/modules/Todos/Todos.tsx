@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
 import { ProgressBox, Select, Task, TaskForm } from "../../components";
 import { TASK_TYPE } from "../../constants";
 import { ISelectOption, ITask } from "../../interfaces";
-import { createTodo, fetchTodos, TRootState } from "../../redux";
+import { createTodo, deleteTodo, fetchTodos, TRootState } from "../../redux";
 import {
   Container,
   ListTitleWrapper,
@@ -53,9 +52,13 @@ const Todos: React.FC = () => {
 
   const onDeleteClick = React.useCallback(
     (id: string) => () => {
-      console.log(id);
+      // TODO: update confirm box when get design
+      const result = window.confirm("Delete this task?");
+      if (result) {
+        dispatch(deleteTodo(id));
+      }
     },
-    []
+    [dispatch]
   );
 
   const onCompleteClick = React.useCallback(
@@ -75,7 +78,7 @@ const Todos: React.FC = () => {
       }
       setActiveEditTask("");
     },
-    [setActiveEditTask]
+    [dispatch, setActiveEditTask]
   );
 
   return (

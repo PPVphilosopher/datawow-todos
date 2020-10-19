@@ -9,19 +9,18 @@ export const fetchTodos = createAsyncThunk<ITask[]>("todos/fetch", async () =>
 
 export const createTodo = createAsyncThunk<ITask, string>(
   "todos/create",
-  async (title, thunkAPI) => {
+  async (title) => {
     const task: ITask = {
       id: uuidv4(),
       completed: false,
       title,
     };
 
-    const result = await api.todos.createTodos(task);
-
-    if (result.id === task.id) {
-      return result;
-    } else {
-      return thunkAPI.rejectWithValue(result);
-    }
+    return api.todos.createTodo(task);
   }
+);
+
+export const deleteTodo = createAsyncThunk<{}, string>(
+  "todo/delete",
+  async (id) => api.todos.deleteTodo(id)
 );
