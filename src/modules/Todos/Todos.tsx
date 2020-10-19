@@ -17,7 +17,7 @@ import {
   Wrapper,
 } from "./Todos.style";
 
-const options: ISelectOption[] = [
+const options: ISelectOption<TASK_TYPE>[] = [
   { label: "All", value: TASK_TYPE.ALL },
   { label: "Done", value: TASK_TYPE.DONE },
   { label: "Undone", value: TASK_TYPE.UNDONE },
@@ -42,18 +42,13 @@ const Todos: React.FC = () => {
     }
   }, [list]);
 
-  const displayList = React.useMemo(() => {
+  const displayList: Record<TASK_TYPE, ITask[]> = React.useMemo(() => {
     const data = list?.data || [];
-    switch (taskType.value) {
-      case TASK_TYPE.DONE:
-        return data.filter((task) => task.completed);
-
-      case TASK_TYPE.UNDONE:
-        return data.filter((task) => !task.completed);
-
-      default:
-        return data;
-    }
+    return {
+      [TASK_TYPE.ALL]: data,
+      [TASK_TYPE.DONE]: data.filter((task) => task.completed),
+      [TASK_TYPE.UNDONE]: data.filter((task) => !task.completed),
+    };
   }, [list, taskType]);
 
   const onEditClick = React.useCallback(
@@ -104,13 +99,16 @@ const Todos: React.FC = () => {
   return (
     <Wrapper>
       <Container>
-        <ProgressBox success={3} total={5} />
+        <ProgressBox
+          success={displayList[TASK_TYPE.DONE].length}
+          total={displayList[TASK_TYPE.ALL].length}
+        />
         <ListWrapper>
           <ListTitleWrapper>
             <span>Tasks</span>
             <Select options={options} value={taskType} onChange={setTaskType} />
           </ListTitleWrapper>
-          {displayList.map((task) =>
+          {displayList[taskType.value].map((task) =>
             activeEditTask === task.id ? (
               <TaskForm
                 key={task.id}
