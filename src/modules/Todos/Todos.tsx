@@ -49,7 +49,7 @@ const Todos: React.FC = () => {
       [TASK_TYPE.DONE]: data.filter((task) => task.completed),
       [TASK_TYPE.UNDONE]: data.filter((task) => !task.completed),
     };
-  }, [list, taskType]);
+  }, [list]);
 
   const onEditClick = React.useCallback(
     (id: string) => () => {
