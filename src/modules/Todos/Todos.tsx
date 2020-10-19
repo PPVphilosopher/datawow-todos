@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 import { ProgressBox, Select, Task, TaskForm } from "../../components";
 import { TASK_TYPE } from "../../constants";
 import { ISelectOption, ITask } from "../../interfaces";
-import { fetchTodos, TRootState } from "../../redux";
+import { createTodo, fetchTodos, TRootState } from "../../redux";
 import {
   Container,
   ListTitleWrapper,
@@ -67,6 +68,15 @@ const Todos: React.FC = () => {
   const onSaveClick = React.useCallback(
     (task: Partial<ITask>) => {
       console.log(task);
+      if (!task.id) {
+        dispatch(
+          createTodo({
+            id: uuidv4(),
+            completed: false,
+            title: task.title || "",
+          })
+        );
+      }
       setActiveEditTask("");
     },
     [setActiveEditTask]

@@ -7,7 +7,7 @@ const callback = <T>(
   reject: (reason?: any) => void
 ) =>
   fetchFunction.then((res) => {
-    if (res.status === 200) resolve(res.json() as any);
+    if (200 <= res.status && res.status < 300) resolve(res.json() as any);
     else reject(new Error(res.statusText));
   }, reject);
 
