@@ -3,16 +3,36 @@ import { theme } from "../../styles";
 
 export const Wrapper = styled.div`
   display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: ${theme.spacings(5, 0)};
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  min-height: 100vh;
+
+  @media ${theme.breakpoints.tablet} {
+    padding: ${theme.spacings(5, 0)};
+  }
 `;
 
 export const Container = styled.div`
   background-color: ${theme.colors.container};
-  border-radius: 20px;
-  width: 720px; // desktop
-  padding: ${theme.spacings(6, 10)};
+  width: 100%;
+  flex: 1;
+  padding: ${theme.spacings(6)};
+
+  @media ${theme.breakpoints.tablet} {
+    border-radius: 20px;
+    height: auto;
+    width: 80%;
+    max-width: 720px;
+  }
+
+  @media ${theme.breakpoints.laptop} {
+    border-radius: 20px;
+    height: auto;
+    width: 80%;
+    max-width: 720px;
+    padding: ${theme.spacings(6, 10)};
+  }
 `;
 
 export const ListWrapper = styled.div``;
