@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ProgressBox, Select, Task } from "../../components";
+import { ProgressBox, Select, Task, TaskForm } from "../../components";
 import { TASK_TYPE } from "../../constants";
 import { ISelectOption, ITask } from "../../interfaces";
 import {
@@ -35,6 +35,7 @@ const data: ITask[] = [
 
 const Todos: React.FC = () => {
   const [taskType, setTaskType] = useState(options[0]);
+  const [activeEditTask, setActiveEditTask] = useState("");
 
   const displayList = React.useMemo(() => {
     switch (taskType.value) {
@@ -49,6 +50,35 @@ const Todos: React.FC = () => {
     }
   }, [taskType]);
 
+  const onEditClick = React.useCallback(
+    (id: string) => () => {
+      setActiveEditTask(id);
+    },
+    [setActiveEditTask]
+  );
+
+  const onDeleteClick = React.useCallback(
+    (id: string) => () => {
+      console.log(id);
+    },
+    []
+  );
+
+  const onCompleteClick = React.useCallback(
+    (task: ITask) => () => {
+      console.log(task);
+    },
+    []
+  );
+
+  const onSaveClick = React.useCallback(
+    (task: Partial<ITask>) => {
+      console.log(task);
+      setActiveEditTask("");
+    },
+    [setActiveEditTask]
+  );
+
   return (
     <Wrapper>
       <Container>
@@ -58,9 +88,21 @@ const Todos: React.FC = () => {
             <span>Tasks</span>
             <Select options={options} value={taskType} onChange={setTaskType} />
           </ListTitleWrapper>
-          {displayList.map((task) => (
-            <Task key={task.id} task={task} />
-          ))}
+          {displayList.map((task) =>
+            activeEditTask === task.id ? (
+              <TaskForm key={task.id} task={task} onSaveClick={onSaveClick} />
+            ) : (
+              <Task
+                key={task.id}
+                task={task}
+                onEditClick={onEditClick(task.id)}
+                onDeleteClick={onDeleteClick(task.id)}
+                onCompleteClick={onCompleteClick(task)}
+                showMenu={!activeEditTask}
+              />
+            )
+          )}
+          <TaskForm onSaveClick={onSaveClick} disabled={!!activeEditTask} />
         </ListWrapper>
       </Container>
     </Wrapper>

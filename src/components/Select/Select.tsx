@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import React from "react";
 import ReactSelect from "react-select";
 import { ISelectOption } from "../../interfaces";
