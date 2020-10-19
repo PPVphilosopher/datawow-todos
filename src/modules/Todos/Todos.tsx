@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { ProgressBox, Select, Task, TaskForm } from "../../components";
 import { TASK_TYPE } from "../../constants";
 import { ISelectOption, ITask } from "../../interfaces";
+import { fetchTodos, TRootState } from "../../redux";
 import {
   Container,
   ListTitleWrapper,
@@ -15,29 +17,20 @@ const options: ISelectOption[] = [
   { label: "Undone", value: TASK_TYPE.UNDONE },
 ];
 
-const data: ITask[] = [
-  {
-    id: "5fe3f4ca-193c-4170-83c1-cb5a19908601",
-    title: "Buy food for dinner",
-    completed: true,
-  },
-  {
-    id: "f619466c-a016-4281-b584-7db2795d103d",
-    title: "Call Marie at 10.00 PM",
-    completed: false,
-  },
-  {
-    id: "5fe3f4ca-193c-4170-83c1-cb5a19908602",
-    title: "Write a react blog post",
-    completed: false,
-  },
-];
-
 const Todos: React.FC = () => {
+  const dispatch = useDispatch();
+
   const [taskType, setTaskType] = useState(options[0]);
   const [activeEditTask, setActiveEditTask] = useState("");
 
+  const list = useSelector((state: TRootState) => state.todos);
+
+  React.useEffect(() => {
+    dispatch(fetchTodos());
+  }, [dispatch]);
+
   const displayList = React.useMemo(() => {
+    const data = list?.data || [];
     switch (taskType.value) {
       case TASK_TYPE.DONE:
         return data.filter((task) => task.completed);
@@ -48,7 +41,7 @@ const Todos: React.FC = () => {
       default:
         return data;
     }
-  }, [taskType]);
+  }, [list, taskType]);
 
   const onEditClick = React.useCallback(
     (id: string) => () => {
