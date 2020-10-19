@@ -24,3 +24,8 @@ export const deleteTodo = createAsyncThunk<{}, string>(
   "todo/delete",
   async (id) => api.todos.deleteTodo(id)
 );
+
+export const updateTodo = createAsyncThunk<ITask, ITask>(
+  "todo/update",
+  async (task) => api.todos.updateTodo(task)
+);

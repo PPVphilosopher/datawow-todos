@@ -42,7 +42,7 @@ const apiServicePut = <T = any>(url: string, params: any = {}): Promise<T> =>
   new Promise<T>((resolve, reject) => {
     callback<T>(
       fetch(`${BASE_URL}${url}`, {
-        method: "POST",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
       }),

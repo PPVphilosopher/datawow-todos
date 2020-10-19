@@ -12,6 +12,7 @@ export const Wrapper = styled.div`
 
 interface ITaskCompleteProps {
   completed: boolean;
+  disabled?: boolean;
 }
 
 export const Checkbox = styled.div<ITaskCompleteProps>`
@@ -26,7 +27,8 @@ export const Checkbox = styled.div<ITaskCompleteProps>`
   background-color: ${(props) =>
     props.completed ? theme.colors.purple : theme.colors.white};
   color: ${theme.colors.white};
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 `;
 
 export const TitleText = styled.div<ITaskCompleteProps>`

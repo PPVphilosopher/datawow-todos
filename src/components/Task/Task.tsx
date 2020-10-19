@@ -10,7 +10,7 @@ interface ITaskProps {
   onEditClick: () => void;
   onDeleteClick: () => void;
   onCompleteClick: () => void;
-  showMenu: boolean;
+  disabled?: boolean;
 }
 
 const Task: React.FC<ITaskProps> = ({
@@ -18,7 +18,7 @@ const Task: React.FC<ITaskProps> = ({
   onEditClick,
   onDeleteClick,
   onCompleteClick,
-  showMenu,
+  disabled,
 }) => {
   const MenuList: IDropdownMenu[] = [
     { label: "Edit", onClick: onEditClick },
@@ -27,11 +27,15 @@ const Task: React.FC<ITaskProps> = ({
 
   return (
     <Wrapper>
-      <Checkbox completed={task.completed} onClick={onCompleteClick}>
+      <Checkbox
+        completed={task.completed}
+        onClick={onCompleteClick}
+        disabled={disabled}
+      >
         <IoMdCheckmark />
       </Checkbox>
       <TitleText completed={task.completed}>{task.title}</TitleText>
-      {showMenu && (
+      {!disabled && (
         <MenuButton>
           <DropdownMenu menuList={MenuList}>
             <IoIosMore />

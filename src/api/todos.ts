@@ -8,3 +8,6 @@ export const createTodo = (task: ITask): Promise<ITask> =>
 
 export const deleteTodo = (id: string): Promise<{}> =>
   apiService.delete(`/todos/${id}`);
+
+export const updateTodo = (task: ITask): Promise<ITask> =>
+  apiService.put(`/todos/${task.id}`, task);

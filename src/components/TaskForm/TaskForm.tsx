@@ -33,7 +33,8 @@ const TaskForm: React.FC<ITaskFormProps> = ({
     };
 
     onSaveClick(updatedTask);
-  }, [task, title, onSaveClick]);
+    setTitle("");
+  }, [task, title, onSaveClick, setTitle]);
 
   return (
     <Wrapper disabled={disabled}>

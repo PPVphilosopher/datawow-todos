@@ -3,7 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProgressBox, Select, Task, TaskForm } from "../../components";
 import { TASK_TYPE } from "../../constants";
 import { ISelectOption, ITask } from "../../interfaces";
-import { createTodo, deleteTodo, fetchTodos, TRootState } from "../../redux";
+import {
+  createTodo,
+  deleteTodo,
+  fetchTodos,
+  TRootState,
+  updateTodo,
+} from "../../redux";
 import {
   Container,
   ListTitleWrapper,
@@ -28,6 +34,13 @@ const Todos: React.FC = () => {
   React.useEffect(() => {
     dispatch(fetchTodos());
   }, [dispatch]);
+
+  React.useEffect(() => {
+    if (!list.isLoading && list.error) {
+      // TODO: update alert box when get design
+      alert(list.error.message);
+    }
+  }, [list]);
 
   const displayList = React.useMemo(() => {
     const data = list?.data || [];
@@ -63,19 +76,26 @@ const Todos: React.FC = () => {
 
   const onCompleteClick = React.useCallback(
     (task: ITask) => () => {
-      console.log(task);
+      dispatch(
+        updateTodo({
+          ...task,
+          completed: !task.completed,
+        })
+      );
     },
-    []
+    [dispatch]
   );
 
   const onSaveClick = React.useCallback(
     (task: Partial<ITask>) => {
-      console.log(task);
       if (!task.title) return;
 
-      if (!task.id) {
+      if (task.id) {
+        dispatch(updateTodo(task as ITask));
+      } else {
         dispatch(createTodo(task.title));
       }
+
       setActiveEditTask("");
     },
     [dispatch, setActiveEditTask]
@@ -92,7 +112,12 @@ const Todos: React.FC = () => {
           </ListTitleWrapper>
           {displayList.map((task) =>
             activeEditTask === task.id ? (
-              <TaskForm key={task.id} task={task} onSaveClick={onSaveClick} />
+              <TaskForm
+                key={task.id}
+                task={task}
+                onSaveClick={onSaveClick}
+                disabled={list.isLoading}
+              />
             ) : (
               <Task
                 key={task.id}
@@ -100,11 +125,14 @@ const Todos: React.FC = () => {
                 onEditClick={onEditClick(task.id)}
                 onDeleteClick={onDeleteClick(task.id)}
                 onCompleteClick={onCompleteClick(task)}
-                showMenu={!activeEditTask}
+                disabled={!!activeEditTask || list.isLoading}
               />
             )
           )}
-          <TaskForm onSaveClick={onSaveClick} disabled={!!activeEditTask} />
+          <TaskForm
+            onSaveClick={onSaveClick}
+            disabled={!!activeEditTask || list.isLoading}
+          />
         </ListWrapper>
       </Container>
     </Wrapper>

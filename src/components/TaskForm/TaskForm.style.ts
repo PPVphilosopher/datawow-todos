@@ -9,7 +9,7 @@ export const Wrapper = styled.div<IWrapperProps>`
   display: flex;
   align-items: center;
   background-color: ${(props) =>
-    props.disabled ? theme.colors.textDisable : theme.colors.white};
+    props.disabled ? theme.colors.container : theme.colors.white};
   border-radius: 22px;
   padding: ${theme.spacings(0.4)};
   padding-left: ${theme.spacings(2)};
