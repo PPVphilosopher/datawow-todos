@@ -23,9 +23,13 @@ const TaskForm: React.FC<ITaskFormProps> = ({
   );
 
   const handleSaveClick = React.useCallback(() => {
+    const trimmedTitle = title.trim();
+
+    if (!trimmedTitle) return;
+
     const updatedTask: Partial<ITask> = {
       ...(task || {}),
-      title,
+      title: trimmedTitle,
     };
 
     onSaveClick(updatedTask);

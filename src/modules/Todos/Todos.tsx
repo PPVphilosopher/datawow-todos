@@ -68,14 +68,10 @@ const Todos: React.FC = () => {
   const onSaveClick = React.useCallback(
     (task: Partial<ITask>) => {
       console.log(task);
+      if (!task.title) return;
+
       if (!task.id) {
-        dispatch(
-          createTodo({
-            id: uuidv4(),
-            completed: false,
-            title: task.title || "",
-          })
-        );
+        dispatch(createTodo(task.title));
       }
       setActiveEditTask("");
     },
